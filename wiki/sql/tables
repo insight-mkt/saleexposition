@@ -1,0 +1,35 @@
+
+********************************************************************************************
+-- mysql首次登录之后，初始化过程遇到的问题：
+set password = password('123456');
+alter user 'root'@'localhost' password expire never;
+flush privileges;
+********************************************************************************************
+-- 启动mysql之前需要执行的命令
+
+sudo touch /etc/my.cnf
+sudo chmod 644 /etc/my.cnf
+sudo chmod -r 777 /usr/local/mysql/
+sudo chmod 777 /tmp
+
+sudo ./mysql_install_db --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --pid-file=/usr/local/mysql/data/mysql.pid --tmpdir=/tmp
+
+启动mysql server:
+sudo /usr/local/mysql/support-files/usr/local/mysql/support-files start/stop/restart
+
+********************************************************************************************
+/etc/my.cnf中的内容：
+[client]
+default-character-set=utf8mb4
+port = 3306
+socket = /tmp/mysql.sock
+
+[mysqld]
+datadir = /usr/local/mysql/data
+log-error = /usr/local/mysql/data/error.log
+pid-file = /usr/local/mysql/data/mysql.pid
+user = mysql
+tmpdir = /tmp
+character-set-server=utf8mb4
+
+********************************************************************************************
